@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/Udpegning_kontrol" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
