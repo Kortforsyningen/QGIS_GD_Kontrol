@@ -329,15 +329,20 @@ class Udpegning_kontrol:
                                     s = u'\xc6NDRE GEOMETRI'
                                 AktionList.append(s)
 
-
-                            if PatternAar.match(str(Aar)):
+                            if Aar == NULL:
+                                AarString= "Aar - Fejl (Tom Celle)"
+                                FeatAarFailCount = FeatAarFailCount + 1
+                            elif PatternAar.match(str(Aar)):
                                 AarString = "Aar - OK"
                             else:
-                                AarString = "Aar - Fejl"
+                                AarString = "Aar - Fejl (Format)"
                                 FeatAarFailCount = FeatAarFailCount + 1
 
                             if Nummer == '0':
-                                NummerString = 'error - Number must not be 0'
+                                NummerString = 'Nummer - Fejl (0 ikke tilladt)'
+                                FeatNummerFailCount = FeatNummerFailCount + 1
+                            elif Nummer == NULL:
+                                NummerString = 'Nummer - Fejl (Tom Celle)'
                                 FeatNummerFailCount = FeatNummerFailCount + 1
                             else:
                                 if PatternNummer1.match(str(Nummer)):
@@ -345,44 +350,52 @@ class Udpegning_kontrol:
                                 elif PatternNummer2.match(str(Nummer)):
                                     NummerString = "Nummer - OK"
                                 else:
-                                    NummerString = "Nummer - Fejl"
+                                    NummerString = "Nummer - Fejl (Format)"
                                     FeatNummerFailCount = FeatNummerFailCount + 1
 
-
-                            if PatternKilde.match(Kilde):
+                            if Kilde == NULL:
+                                KildeString= "Kilde - Fejl (Tom Celle)"
+                                FeatKildeFailCount = FeatKildeFailCount +1
+                            elif PatternKilde.match(str(Kilde)):
                                 KildeString = "Kilde - OK"
                             else:
-                                KildeString = "Kilde - Fejl"
+                                KildeString = "Kilde - Fejl (Format)"
                                 FeatKildeFailCount = FeatKildeFailCount +1
 
-                            if Aktion in AktionList:
-                                AktionString = 'Aktion - OK'
+                            if Aktion == NULL:
+                                AktionString = "Aktion - Fejl (Tom Celle)"
+                                FeatAktionFailCount = FeatAktionFailCount +1
+                            elif Aktion in AktionList:
+                                AktionString = "Aktion - OK"
                             else:
-                                AktionString = 'Aktion - Fejl'
+                                AktionString = "Aktion - Fejl (Format)"
                                 FeatAktionFailCount = FeatAktionFailCount +1
 
-                            if OBJ_type == '':
-                                OBJString = 'OBJ_type  - OK'
+                            if OBJ_type == NULL:
+                                OBJString = "OBJ_type  - OK"
+                                FeatOBJFailCount = FeatOBJFailCount + 1
                             elif PatternOBJ.match(str(OBJ_type)):
-                                OBJString = 'OBJ_type - OK'
+                                OBJString = "OBJ_type - OK"
                             else:
-                                OBJString = 'OBJ_type - Fejl'
+                                OBJString = "OBJ_type - Fejl (Format)"
                                 FeatOBJFailCount = FeatOBJFailCount + 1
 
-                            if Foretaget == 'NY':
+                            if Foretaget == NULL:
+                                ForetagetString='Foretaget - Fejl (Tom Celle)'
+                                FeatForetagetFailCount = FeatForetagetFailCount + 1
+                            elif Foretaget == 'NY':
                                 ForetagetString = 'Foretaget  - OK'
                             elif Foretaget == 'ny':
                                 ForetagetString = 'Foretaget - OK'
                             elif Foretaget == 'Ny':
                                 ForetagetString = 'Foretaget - OK'
                             else:
-                                ForetagetString = 'Foretaget - Fejl'
+                                ForetagetString = 'Foretaget - Fejl (Format)'
                                 FeatForetagetFailCount = FeatForetagetFailCount + 1
 
                             if str(geomtype) == '0':
                                 geom = feat.geometry().centroid()
                                 Geometri = geom.asPoint()
-                                # add a feature
                                 newfeat = QgsFeature()
                                 newfeat.setGeometry(QgsGeometry.fromPoint(Geometri))
                             elif str(geomtype) == '1':
@@ -425,5 +438,5 @@ class Udpegning_kontrol:
                         #return
             #                        QMessageBox.information(None, "status", str(AttributesList))
             except (RuntimeError, TypeError, NameError):  # , ValueError):
-                QMessageBox.information(None, "General Error", "General file error V2.1, please check that you have choosen the correct PPC file")
+                QMessageBox.information(None, "General Error", "General file error V2.1, please check that you have choosen the correct file")
                 return
