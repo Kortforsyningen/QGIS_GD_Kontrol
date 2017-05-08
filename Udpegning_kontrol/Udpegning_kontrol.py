@@ -186,15 +186,6 @@ class Udpegning_kontrol:
         # remove the toolbar
         del self.toolbar
 
- #   def to_unicode(in_string):
- #       if isinstance(in_string, str):
- #           out_string = in_string.decode('utf-8')
- #       elif isinstance(in_string, unicode):
- #           out_string = in_string
- #       else:
- #           raise TypeError('not stringy')
- #       return out_string
-
     def checkA( self ):
         inputFilNavn = unicode( self.dlg.inShapeA.currentText() )
         canvas = self.iface.mapCanvas()
